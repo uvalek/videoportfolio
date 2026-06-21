@@ -28,7 +28,7 @@ window.PORTFOLIO_VIDEOS = {
     "https://youtube.com/shorts/gXBP08k4gA8",
     "https://youtube.com/shorts/_ezulbsIKMw",
     "https://youtube.com/shorts/_ezulbsIKMw",
-    "PEGA_AQUI_EL_LINK_VERTICAL_4",
+    "https://youtube.com/shorts/2ccCB7O4q-A?si=P6O3GfOtyfJ1tKKi",
   ],
 
 };
