@@ -21,13 +21,13 @@
 window.PORTFOLIO_VIDEOS = {
 
   // ───── 1 VIDEO HORIZONTAL (16:9) — el destacado grande de arriba ─────
-  horizontal: "PEGA_AQUI_EL_LINK_HORIZONTAL",
+  horizontal: "https://youtu.be/iC-jNTXvt-w",
 
   // ───── 4 VIDEOS VERTICALES (9:16) — en orden, de izquierda a derecha ─────
   verticales: [
-    "PEGA_AQUI_EL_LINK_VERTICAL_1",
-    "PEGA_AQUI_EL_LINK_VERTICAL_2",
-    "PEGA_AQUI_EL_LINK_VERTICAL_3",
+    "https://youtube.com/shorts/gXBP08k4gA8",
+    "https://youtube.com/shorts/_ezulbsIKMw",
+    "https://youtube.com/shorts/_ezulbsIKMw",
     "PEGA_AQUI_EL_LINK_VERTICAL_4",
   ],
 
