@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alek · Editor de Video</title>
+<!-- 1) Tus enlaces de YouTube (edita SOLO videos-config.js) -->
+<script src="./videos-config.js"></script>
+<!-- 2) Motor de Claude Design (no editar) -->
+<script src="./support.js"></script>
+<!-- 3) "Clic para reproducir" (no editar) -->
+<script src="./videos-init.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Hanken+Grotesk:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:#0b0a09;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+  ::selection{background:rgba(245,166,35,0.28);color:#fff;}
+  a{-webkit-tap-highlight-color:transparent;}
+  @keyframes rise{from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes heroFade{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes glowPulse{0%,100%{opacity:.72;transform:scale(1);}50%{opacity:1;transform:scale(1.07);}}
+</style>
+</helmet>
+
+<main style="{{ rootStyle }}">
+
+  <div style="{{ grainStyle }}"></div>
+
+  <!-- ============ NAV ============ -->
+  <nav style="position:sticky;top:0;z-index:60;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;padding:15px clamp(20px,4vw,52px);background:rgba(11,10,9,0.72);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line);">
+    <a href="#inicio" style="text-decoration:none;font-family:'Archivo',sans-serif;font-weight:900;font-size:20px;letter-spacing:-0.02em;color:var(--ink);">Alek<span style="color:var(--accent);">.</span></a>
+    <div style="display:flex;align-items:center;gap:clamp(14px,2.4vw,30px);flex-wrap:wrap;">
+      <a href="#trabajo" style="text-decoration:none;color:var(--muted);font-size:14px;font-weight:500;letter-spacing:0.01em;transition:color .25s;" style-hover="color:var(--ink)">Trabajo</a>
+      <a href="#sobre" style="text-decoration:none;color:var(--muted);font-size:14px;font-weight:500;letter-spacing:0.01em;transition:color .25s;" style-hover="color:var(--ink)">Sobre mí</a>
+      <a href="#precios" style="text-decoration:none;color:var(--muted);font-size:14px;font-weight:500;letter-spacing:0.01em;transition:color .25s;" style-hover="color:var(--ink)">Precios</a>
+      <a href="#contacto" style="text-decoration:none;color:var(--muted);font-size:14px;font-weight:500;letter-spacing:0.01em;transition:color .25s;" style-hover="color:var(--ink)">Contacto</a>
+      <a href="#contacto" style="text-decoration:none;background:var(--accent);color:#fff;padding:9px 17px;border-radius:999px;font-size:13px;font-weight:700;letter-spacing:0.01em;transition:transform .2s,box-shadow .25s;box-shadow:0 0 0 rgba(245,166,35,0);" style-hover="transform:translateY(-1px);box-shadow:0 8px 26px var(--glow)">Trabajemos juntos</a>
+    </div>
+  </nav>
+
+  <!-- ============ HERO ============ -->
+  <header id="inicio" style="position:relative;overflow:hidden;padding:clamp(36px,7vw,84px) clamp(20px,4vw,52px) clamp(56px,9vw,116px);">
+    <div style="position:absolute;top:-14%;right:-6%;width:min(78vw,820px);height:min(78vw,820px);background:radial-gradient(circle, var(--glow) 0%, transparent 60%);pointer-events:none;z-index:0;animation:glowPulse 7s ease-in-out infinite;"></div>
+
+    <div style="position:relative;z-index:1;max-width:1240px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:clamp(32px,5vw,72px);">
+
+      <div style="flex:1 1 420px;min-width:280px;">
+        <h1 style="font-family:'Archivo',sans-serif;font-weight:900;font-size:clamp(70px,13.5vw,172px);line-height:0.84;letter-spacing:-0.04em;color:var(--ink);margin:0;animation:heroFade .95s both;animation-delay:.18s;">{{ nombre }}</h1>
+
+        <div style="margin:14px 0 0;animation:heroFade .95s both;animation-delay:.26s;">
+          <p style="font-family:'Archivo',sans-serif;font-weight:800;font-style:normal;font-size:clamp(16px,2.4vw,26px);line-height:1;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink);margin:0;">{{ rol }}</p>
+        </div>
+
+        <p style="font-size:clamp(16px,1.7vw,20px);line-height:1.55;color:var(--muted);max-width:34ch;margin:clamp(22px,3vw,30px) 0 0;animation:heroFade .95s both;animation-delay:.34s;">{{ frase }}</p>
+
+        <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:clamp(26px,3.5vw,38px);animation:heroFade .95s both;animation-delay:.44s;">
+          <a href="#contacto" style="text-decoration:none;background:var(--accent);color:#fff;padding:15px 28px;border-radius:999px;font-size:15px;font-weight:700;letter-spacing:0.01em;transition:transform .2s,box-shadow .25s;" style-hover="transform:translateY(-2px);box-shadow:0 14px 38px var(--glow)">{{ cta }}</a>
+          <a href="#trabajo" style="text-decoration:none;color:var(--ink);padding:15px 26px;border-radius:999px;border:1px solid var(--line);font-size:15px;font-weight:600;transition:border-color .25s,background .25s;" style-hover="border-color:var(--accent);background:rgba(245,166,35,0.06)">Ver mi trabajo</a>
+        </div>
+
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px;margin-top:clamp(26px,3.5vw,36px);font-family:'Archivo',sans-serif;font-size:15px;font-weight:600;letter-spacing:-0.01em;color:var(--ink);animation:heroFade .95s both;animation-delay:.54s;">
+          <span>alekhammer13@gmail.com</span>
+          <span style="color:var(--accent);font-weight:800;">/</span>
+          <span>@aleek.edit</span>
+        </div>
+      </div>
+
+      <div style="position:relative;flex:1 1 300px;min-width:260px;max-width:430px;animation:heroFade 1s both;animation-delay:.3s;">
+        <div style="position:absolute;inset:-12% -8% -8% -12%;background:radial-gradient(ellipse at 60% 40%, var(--glow) 0%, transparent 65%);filter:blur(8px);pointer-events:none;z-index:0;"></div>
+        <div style="position:relative;z-index:1;aspect-ratio:4/5;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:var(--panel);">
+          <x-import component-from-global-scope="image-slot" from="./image-slot.js" id="alek-portrait" shape="rect" fit="cover" placeholder="Arrastra tu retrato" hint-size="100%,100%" style="width:100%;height:100%;display:block;"></x-import>
+        </div>
+        <span style="position:absolute;bottom:14px;left:14px;z-index:2;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);background:rgba(11,10,9,0.6);padding:4px 9px;border-radius:6px;backdrop-filter:blur(6px);">EDITOR · 2026</span>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ============ TRABAJO ============ -->
+  <section id="trabajo" style="padding:clamp(50px,8vw,110px) clamp(20px,4vw,52px);">
+    <div style="max-width:1240px;margin:0 auto;">
+
+      <div style="margin-bottom:clamp(34px,5vw,56px);animation-name:rise;animation-duration:0.95s;animation-fill-mode:both;animation-timing-function:cubic-bezier(.2,.65,.25,1);animation-timeline:view();animation-range:entry 0% cover 24%;">
+        <p style="font-family:'Archivo',sans-serif;font-weight:900;font-size:clamp(40px,6vw,84px);line-height:0.9;letter-spacing:-0.03em;color:var(--accent);margin:0 0 14px;">01</p>
+        <h2 style="font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(40px,6.5vw,80px);line-height:0.95;letter-spacing:-0.035em;color:var(--ink);margin:0;max-width:18ch;">Piezas con <span style="font-weight:800;font-style:normal;color:var(--accent);">ritmo</span> y propósito</h2>
+        <p style="font-size:clamp(15px,1.6vw,18px);line-height:1.55;color:var(--muted);max-width:48ch;margin:18px 0 0;">Una selección de reels verticales estilo podcast y motion graphics para producto digital. Haz clic en cualquier video para reproducirlo sin salir de la página.</p>
+      </div>
+
+      <!-- ============================================================= -->
+      <!-- FEATURED · HORIZONTAL 16:9                                     -->
+      <!-- El video sale del enlace "horizontal" en videos-config.js     -->
+      <!-- ============================================================= -->
+      <figure style="margin:0 0 clamp(20px,3vw,34px);animation-name:rise;animation-duration:0.95s;animation-fill-mode:both;animation-timing-function:cubic-bezier(.2,.65,.25,1);animation-timeline:view();animation-range:entry 0% cover 22%;">
+
+        <!-- (A) HAY enlace -> póster con miniatura; al hacer clic se reproduce -->
+        <sc-if value="{{ destacado.ytid }}">
+          <div data-yt="{{ destacado.ytid }}" style="position:relative;aspect-ratio:16/9;width:100%;border-radius:18px;overflow:hidden;background:var(--panel);border:1px solid var(--line);cursor:pointer;transition:transform .3s,border-color .3s,box-shadow .3s;" style-hover="transform:translateY(-3px);border-color:var(--accent);box-shadow:0 26px 60px rgba(0,0,0,0.5)">
+            <img src="https://i.ytimg.com/vi/{{ destacado.ytid }}/hqdefault.jpg" alt="Miniatura del video" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;">
+            <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,10,9,0.15),rgba(11,10,9,0.45));"></div>
+            <span style="position:absolute;top:16px;left:18px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);">● Destacado</span>
+            <span style="position:absolute;top:16px;right:18px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;color:#e8e0d4;">16:9</span>
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+              <div style="width:82px;height:82px;border-radius:50%;border:1.5px solid var(--accent);display:flex;align-items:center;justify-content:center;background:rgba(11,10,9,0.45);backdrop-filter:blur(2px);">
+                <div style="width:0;height:0;border-left:20px solid var(--accent);border-top:13px solid transparent;border-bottom:13px solid transparent;margin-left:5px;"></div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- (B) NO hay enlace todavía -> marcador de posición -->
+        <sc-if value="{{ destacado.sinVideo }}">
+          <div style="position:relative;aspect-ratio:16/9;width:100%;border-radius:18px;overflow:hidden;background:var(--panel);border:1px solid var(--line);transition:transform .3s,border-color .3s,box-shadow .3s;" style-hover="transform:translateY(-3px);border-color:var(--accent);box-shadow:0 26px 60px rgba(0,0,0,0.5)">
+            <div style="position:absolute;inset:0;background:repeating-linear-gradient(45deg, rgba(255,255,255,0.018) 0 12px, transparent 12px 24px);"></div>
+            <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%, var(--glow) 0%, transparent 60%);opacity:0.18;"></div>
+            <span style="position:absolute;top:16px;left:18px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);">● Destacado</span>
+            <span style="position:absolute;top:16px;right:18px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.1em;color:var(--muted);">16:9</span>
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+              <div style="width:82px;height:82px;border-radius:50%;border:1.5px solid var(--accent);display:flex;align-items:center;justify-content:center;background:rgba(245,166,35,0.1);">
+                <div style="width:0;height:0;border-left:20px solid var(--accent);border-top:13px solid transparent;border-bottom:13px solid transparent;margin-left:5px;"></div>
+              </div>
+            </div>
+            <span style="position:absolute;bottom:16px;left:18px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);">Pega tu link en <span style="color:var(--accent);">videos-config.js</span></span>
+          </div>
+        </sc-if>
+
+        <figcaption style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 20px;margin-top:18px;">
+          <span style="font-family:'Archivo',sans-serif;font-weight:700;font-size:clamp(22px,2.6vw,30px);letter-spacing:-0.02em;color:var(--ink);">Motion Graphics · SaaS</span>
+          <span style="font-size:14px;color:var(--muted);">Animación de producto · SFX</span>
+        </figcaption>
+      </figure>
+
+      <!-- ============================================================= -->
+      <!-- GRID · 4 VERTICALES 9:16                                       -->
+      <!-- Los videos salen del arreglo "verticales" en videos-config.js -->
+      <!-- ============================================================= -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:clamp(14px,1.8vw,22px);animation-name:rise;animation-duration:0.95s;animation-fill-mode:both;animation-timing-function:cubic-bezier(.2,.65,.25,1);animation-timeline:view();animation-range:entry 0% cover 18%;">
+        <sc-for list="{{ verticales }}" as="v" hint-placeholder-count="4">
+          <figure style="margin:0;">
+
+            <!-- (A) HAY enlace -> póster vertical con miniatura -->
+            <sc-if value="{{ v.ytid }}">
+              <div data-yt="{{ v.ytid }}" style="position:relative;aspect-ratio:9/16;width:100%;border-radius:14px;overflow:hidden;background:var(--panel);border:1px solid var(--line);cursor:pointer;transition:transform .3s,border-color .3s,box-shadow .3s;" style-hover="transform:translateY(-3px);border-color:var(--accent);box-shadow:0 20px 44px rgba(0,0,0,0.5)">
+                <img src="https://i.ytimg.com/vi/{{ v.ytid }}/hqdefault.jpg" alt="Miniatura del video" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;">
+                <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,10,9,0.15),rgba(11,10,9,0.5));"></div>
+                <span style="position:absolute;top:13px;left:13px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.1em;color:#e8e0d4;">{{ v.n }}</span>
+                <span style="position:absolute;top:13px;right:13px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.1em;color:#e8e0d4;">9:16</span>
+                <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+                  <div style="width:56px;height:56px;border-radius:50%;border:1.5px solid var(--accent);display:flex;align-items:center;justify-content:center;background:rgba(11,10,9,0.45);backdrop-filter:blur(2px);">
+                    <div style="width:0;height:0;border-left:14px solid var(--accent);border-top:9px solid transparent;border-bottom:9px solid transparent;margin-left:3px;"></div>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+
+            <!-- (B) NO hay enlace todavía -> marcador de posición -->
+            <sc-if value="{{ v.sinVideo }}">
+              <div style="position:relative;aspect-ratio:9/16;width:100%;border-radius:14px;overflow:hidden;background:var(--panel);border:1px solid var(--line);transition:transform .3s,border-color .3s,box-shadow .3s;" style-hover="transform:translateY(-3px);border-color:var(--accent);box-shadow:0 20px 44px rgba(0,0,0,0.5)">
+                <div style="position:absolute;inset:0;background:repeating-linear-gradient(45deg, rgba(255,255,255,0.018) 0 11px, transparent 11px 22px);"></div>
+                <span style="position:absolute;top:13px;left:13px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.1em;color:var(--muted);">{{ v.n }}</span>
+                <span style="position:absolute;top:13px;right:13px;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:0.1em;color:var(--muted);">9:16</span>
+                <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+                  <div style="width:56px;height:56px;border-radius:50%;border:1.5px solid var(--accent);display:flex;align-items:center;justify-content:center;background:rgba(245,166,35,0.09);">
+                    <div style="width:0;height:0;border-left:14px solid var(--accent);border-top:9px solid transparent;border-bottom:9px solid transparent;margin-left:3px;"></div>
+                  </div>
+                </div>
+                <span style="position:absolute;bottom:13px;left:13px;right:13px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.04em;color:var(--muted);">Pega tu link en <span style="color:var(--accent);">videos-config.js</span></span>
+              </div>
+            </sc-if>
+
+            <figcaption style="margin-top:13px;">
+              <p style="font-family:'Archivo',sans-serif;font-weight:700;font-size:18px;letter-spacing:-0.02em;color:var(--ink);margin:0;line-height:1.15;">{{ v.titulo }}</p>
+              <p style="font-size:13px;color:var(--muted);margin:4px 0 0;">{{ v.contexto }}</p>
+            </figcaption>
+          </figure>
+        </sc-for>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ SOBRE MÍ ============ -->
+  <section id="sobre" style="padding:clamp(50px,8vw,110px) clamp(20px,4vw,52px);border-top:1px solid var(--line);">
+    <div style="max-width:1240px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(30px,5vw,70px);align-items:start;">
+      <div style="animation-name:rise;animation-duration:0.95s;animation-fill-mode:both;animation-timing-function:cubic-bezier(.2,.65,.25,1);animation-timeline:view();animation-range:entry 0% cover 26%;">
+        <p style="font-family:'Archivo',sans-serif;font-weight:900;font-size:clamp(40px,6vw,84px);line-height:0.9;letter-spacing:-0.03em;color:var(--accent);margin:0 0 14px;">02</p>
+        <h2 style="font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(40px,5.5vw,72px);line-height:0.95;letter-spacing:-0.035em;color:var(--ink);margin:0;">Sobre mí</h2>
+      </div>
+      <div style="animation-name:rise;animation-duration:0.95s;animation-fill-mode:both;animation-timing-function:cubic-bezier(.2,.65,.25,1);animation-timeline:view();animation-range:entry 0% cover 22%;">
+        <p style="font-size:clamp(16px,1.7vw,19px);line-height:1.65;color:#d4ccc0;margin:0 0 18px;">Tengo 21 años y soy egresado de la Licenciatura en Publicidad. La edición me atrapó a los 13: empecé montando mis gameplays en Sony Vegas para subirlos a YouTube, y de ahí no paré.</p>
+        <p style="font-size:clamp(16px,1.7vw,19px);line-height:1.65;color:var(--muted);margin:0 0 28px;">Hoy trabajo con Premiere Pro y After Effects, e integro inteligencia artificial como herramienta para potenciar cada pieza. Este último año me adentré además en la IA aplicada a negocios —construyendo ecosistemas agénticos para el sector inmobiliario—, una mirada estratégica que traigo de vuelta a cada proyecto de edición.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:9px;">
+          <sc-for list="{{ herramientas }}" as="h" hint-placeholder-count="3">
+            <span style="display:inline-flex;align-items:center;gap:9px;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:0.04em;color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:8px 16px 8px 9px;">
+              <img src="{{ h.icon }}" alt="{{ h.nombre }}" style="width:22px;height:22px;border-radius:5px;object-fit:contain;display:block;">
+              {{ h.nombre }}
+            </span>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PRECIOS ============ -->
+  <section id="precios" style="position:relative;overflow:hidden;padding:clamp(50px,8vw,110px) clamp(20px,4vw,52px);border-top:1px solid var(--line);">
+    <div style="position:absolute;top:-20%;right:-10%;width:min(70vw,720px);height:min(70vw,720px);background:radial-gradient(circle, var(--glow) 0%, transparent 62%);opacity:0.4;pointer-events:none;z-index:0;"></div>
+    <div style="position:relative;z-index:1;max-width:1240px;margin:0 auto;">
+
+      <div style="max-width:620px;margin-bottom:clamp(28px,4vw,44px);animation-name:rise;animation-duration:0.95s;animation-fill-mode:both;animation-timing-function:cubic-bezier(.2,.65,.25,1);animation-timeline:view();animation-range:entry 0% cover 24%;">
+        <p style="font-family:'Archivo',sans-serif;font-weight:900;font-size:clamp(40px,6vw,84px);line-height:0.9;letter-spacing:-0.03em;color:var(--accent);margin:0 0 14px;">03</p>
+        <h2 style="font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(40px,5.5vw,72px);line-height:0.95;letter-spacing:-0.035em;color:var(--ink);margin:0;">Planes y <span style="font-weight:800;font-style:normal;color:var(--accent);">precios</span></h2>
+      </div>
+
+      <!-- PRUEBA GRATIS -->
+      <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;padding:clamp(22px,3vw,30px) clamp(22px,3.4vw,38px);border:1px solid var(--accent);border-radius:22px;background:linear-gradient(120deg, var(--glow), transparent 70%);margin-bottom:clamp(30px,4.5vw,52px);animation-name:rise;animation-duration:0.95s;animation-fill-mode:both;animation-timing-function:cubic-bezier(.2,.65,.25,1);animation-timeline:view();animation-range:entry 0% cover 22%;">
+        <div style="flex:1 1 360px;min-width:260px;">
+          <p style="font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:0.16em;text-transform:uppercase;color:var(--accent);margin:0 0 10px;">Sin riesgo</p>
+          <h3 style="font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(24px,3vw,34px);line-height:1.05;letter-spacing:-0.02em;color:var(--ink);margin:0 0 8px;">Prueba gratis · 1 video para reels</h3>
+          <p style="font-size:clamp(15px,1.6vw,17px);line-height:1.55;color:var(--muted);margin:0;max-width:52ch;">Edito un reel completo sin costo para que veas mi estilo, ritmo y calidad antes de contratar cualquier paquete.</p>
+        </div>
+        <a href="https://wa.me/522411363909" target="_blank" rel="noopener" style="flex:0 0 auto;text-decoration:none;background:var(--accent);color:#fff;padding:15px 28px;border-radius:999px;font-size:15px;font-weight:700;white-space:nowrap;transition:transform .2s,box-shadow .25s;" style-hover="transform:translateY(-2px);box-shadow:0 14px 38px var(--glow)">Quiero mi video gratis</a>
+      </div>
+
+      <!-- PAQUETES -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(18px,2.4vw,26px);align-items:stretch;">
+        <sc-for list="{{ paquetes }}" as="p" hint-placeholder-count="3">
+          <div style="position:relative;display:flex;flex-direction:column;padding:clamp(26px,3vw,36px);border:1px solid var(--line);border-radius:22px;background:var(--panel);transition:transform .3s,border-color .25s;animation-name:rise;animation-duration:0.95s;animation-fill-mode:both;animation-timing-function:cubic-bezier(.2,.65,.25,1);animation-timeline:view();animation-range:entry 0% cover 20%;" style-hover="transform:translateY(-4px);border-color:var(--accent)">
+            <sc-if value="{{ p.destacado }}" hint-placeholder-val="{{ true }}">
+              <span style="position:absolute;top:-13px;left:50%;transform:translateX(-50%);font-family:'Archivo',sans-serif;font-weight:700;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#fff;background:var(--accent);padding:6px 14px;border-radius:999px;white-space:nowrap;">Más popular</span>
+            </sc-if>
+            <h3 style="font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(22px,2.4vw,28px);letter-spacing:-0.02em;color:var(--ink);margin:0 0 6px;">{{ p.nombre }}</h3>
+            <p style="font-size:14px;line-height:1.45;color:var(--muted);margin:0 0 22px;min-height:38px;">{{ p.desc }}</p>
+            <div style="display:flex;align-items:baseline;gap:8px;margin:0 0 24px;padding-bottom:24px;border-bottom:1px solid var(--line);">
+              <span style="font-family:'Archivo',sans-serif;font-weight:900;font-size:clamp(34px,4.4vw,46px);letter-spacing:-0.03em;color:var(--ink);">{{ p.precio }}</span>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.04em;color:var(--muted);">{{ p.periodo }}</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:13px;margin-bottom:30px;">
+              <sc-for list="{{ p.features }}" as="f" hint-placeholder-count="5">
+                <div style="display:flex;align-items:flex-start;gap:11px;">
+                  <span style="flex:0 0 auto;margin-top:1px;color:var(--accent);font-weight:800;font-size:15px;line-height:1.4;">✦</span>
+                  <span style="font-size:15px;line-height:1.4;color:#d4ccc0;">{{ f }}</span>
+                </div>
+              </sc-for>
+            </div>
+            <a href="https://wa.me/522411363909" target="_blank" rel="noopener" style="margin-top:auto;text-decoration:none;text-align:center;background:var(--accent);color:#fff;padding:14px 24px;border-radius:999px;font-size:15px;font-weight:700;transition:transform .2s,box-shadow .25s;" style-hover="transform:translateY(-2px);box-shadow:0 14px 38px var(--glow)">Elegir {{ p.nombre }}</a>
+          </div>
+        </sc-for>
+      </div>
+
+      <!-- A LA CARTA -->
+      <div style="margin-top:clamp(48px,7vw,80px);animation-name:rise;animation-duration:0.95s;animation-fill-mode:both;animation-timing-function:cubic-bezier(.2,.65,.25,1);animation-timeline:view();animation-range:entry 0% cover 22%;">
+        <h3 style="font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(20px,2.4vw,28px);letter-spacing:-0.02em;color:var(--ink);margin:0 0 clamp(20px,3vw,30px);">Precios por video individual</h3>
+
+        <div style="display:flex;flex-direction:column;">
+
+          <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 18px;padding:clamp(18px,2.4vw,24px) 0;border-top:1px solid var(--line);transition:padding-left .25s;" style-hover="padding-left:8px">
+            <h4 style="font-family:'Archivo',sans-serif;font-weight:700;font-size:clamp(18px,2vw,22px);letter-spacing:-0.01em;color:var(--ink);margin:0;flex:0 0 auto;min-width:200px;">Video vertical</h4>
+            <p style="flex:1 1 280px;font-size:14.5px;line-height:1.5;color:var(--muted);margin:0;">Reels, TikTok y Shorts. Cortes dinámicos, subtítulos, música y efectos.</p>
+            <div style="flex:0 0 auto;display:flex;align-items:baseline;gap:6px;margin-left:auto;">
+              <span style="font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;">desde</span>
+              <span style="font-family:'Archivo',sans-serif;font-weight:900;font-size:clamp(24px,3vw,32px);letter-spacing:-0.03em;color:var(--ink);">$400</span>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 18px;padding:clamp(18px,2.4vw,24px) 0;border-top:1px solid var(--line);transition:padding-left .25s;" style-hover="padding-left:8px">
+            <h4 style="font-family:'Archivo',sans-serif;font-weight:700;font-size:clamp(18px,2vw,22px);letter-spacing:-0.01em;color:var(--ink);margin:0;flex:0 0 auto;min-width:200px;">Video horizontal / YouTube</h4>
+            <p style="flex:1 1 280px;font-size:14.5px;line-height:1.5;color:var(--muted);margin:0;">Videos largos, contenido para YouTube y edición de cámara.</p>
+            <div style="flex:0 0 auto;display:flex;align-items:baseline;gap:6px;margin-left:auto;">
+              <span style="font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;">desde</span>
+              <span style="font-family:'Archivo',sans-serif;font-weight:900;font-size:clamp(24px,3vw,32px);letter-spacing:-0.03em;color:var(--ink);">$1,200</span>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 18px;padding:clamp(18px,2.4vw,24px) 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);transition:padding-left .25s;" style-hover="padding-left:8px">
+            <h4 style="font-family:'Archivo',sans-serif;font-weight:700;font-size:clamp(18px,2vw,22px);letter-spacing:-0.01em;color:var(--ink);margin:0;flex:0 0 auto;min-width:200px;">Video corporativo</h4>
+            <p style="flex:1 1 280px;font-size:14.5px;line-height:1.5;color:var(--muted);margin:0;">Institucional, promocional o de producto. Postproducción completa.</p>
+            <div style="flex:0 0 auto;display:flex;align-items:baseline;gap:6px;margin-left:auto;">
+              <span style="font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;">desde</span>
+              <span style="font-family:'Archivo',sans-serif;font-weight:900;font-size:clamp(24px,3vw,32px);letter-spacing:-0.03em;color:var(--ink);">$3,500</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- EXTRAS -->
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:18px;margin-top:clamp(22px,3vw,30px);padding:clamp(18px,2.4vw,26px) clamp(22px,3vw,34px);border:1px dashed var(--line);border-radius:18px;background:var(--panel);">
+          <span style="font-size:22px;flex:0 0 auto;">✦</span>
+          <div style="flex:1 1 260px;">
+            <h4 style="font-family:'Archivo',sans-serif;font-weight:700;font-size:17px;color:var(--ink);margin:0 0 4px;">Extras premium</h4>
+            <p style="font-size:14px;line-height:1.55;color:var(--muted);margin:0;">Motion graphics, animación 3D, trackeo de seguimiento, diseño de sonido y entrega express. <span style="color:var(--ink);font-weight:600;">Se cotizan según el proyecto.</span></p>
+          </div>
+          <a href="https://wa.me/522411363909" target="_blank" rel="noopener" style="flex:0 0 auto;text-decoration:none;color:var(--ink);padding:12px 22px;border-radius:999px;border:1px solid var(--line);font-size:14px;font-weight:600;white-space:nowrap;transition:border-color .25s;" style-hover="border-color:var(--accent)">Cotizar extras</a>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============ CONTACTO ============ -->
+  <section id="contacto" style="position:relative;overflow:hidden;padding:clamp(60px,10vw,140px) clamp(20px,4vw,52px);border-top:1px solid var(--line);">
+    <div style="position:absolute;bottom:-30%;left:50%;transform:translateX(-50%);width:min(90vw,900px);height:min(60vw,560px);background:radial-gradient(ellipse at 50% 100%, var(--glow) 0%, transparent 62%);opacity:0.6;pointer-events:none;"></div>
+    <div style="position:relative;z-index:1;max-width:1000px;margin:0 auto;text-align:center;animation-name:rise;animation-duration:0.95s;animation-fill-mode:both;animation-timing-function:cubic-bezier(.2,.65,.25,1);animation-timeline:view();animation-range:entry 0% cover 26%;">
+      <p style="font-family:'Archivo',sans-serif;font-weight:900;font-size:clamp(40px,6vw,84px);line-height:0.9;letter-spacing:-0.03em;color:var(--accent);margin:0 0 18px;">04</p>
+      <h2 style="font-family:'Archivo',sans-serif;font-weight:900;font-size:clamp(50px,8.5vw,120px);line-height:0.9;letter-spacing:-0.045em;color:var(--ink);margin:0;">Trabajemos <span style="font-weight:900;font-style:normal;color:var(--accent);">juntos</span></h2>
+      <p style="font-size:clamp(16px,1.8vw,20px);line-height:1.55;color:var(--muted);max-width:42ch;margin:clamp(20px,3vw,28px) auto 0;">¿Tienes un proyecto, un reel o una marca que necesita ritmo? Escríbeme y lo montamos.</p>
+
+      <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:clamp(32px,4vw,46px);">
+        <a href="https://wa.me/522411363909" target="_blank" rel="noopener" style="text-decoration:none;background:var(--accent);color:#fff;padding:16px 30px;border-radius:999px;font-size:15px;font-weight:700;transition:transform .2s,box-shadow .25s;" style-hover="transform:translateY(-2px);box-shadow:0 14px 38px var(--glow)">WhatsApp · 241 136 3909</a>
+        <a href="mailto:alekhammer13@gmail.com" style="text-decoration:none;color:var(--ink);padding:16px 28px;border-radius:999px;border:1px solid var(--line);font-size:15px;font-weight:600;transition:border-color .25s,background .25s;" style-hover="border-color:var(--accent);background:rgba(245,166,35,0.06)">Correo</a>
+        <a href="https://www.instagram.com/aleek.edit?igsh=cTUwZ21vOWt4bGR2&utm_source=qr" target="_blank" rel="noopener" style="text-decoration:none;color:var(--ink);padding:16px 28px;border-radius:999px;border:1px solid var(--line);font-size:15px;font-weight:600;transition:border-color .25s,background .25s;" style-hover="border-color:var(--accent);background:rgba(245,166,35,0.06)">Instagram</a>
+      </div>
+    </div>
+  </section>
+
+
+</main>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: { &quot;width&quot;: 1280, &quot;height&quot;: 2600 },
+  &quot;nombre&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;Alek&quot;, &quot;tsType&quot;: &quot;string&quot; },
+  &quot;rol&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;Editor de Video&quot;, &quot;tsType&quot;: &quot;string&quot; },
+  &quot;frase&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;Edición con ritmo de cine. Reels, podcasts y motion graphics que atrapan desde el primer frame.&quot;, &quot;tsType&quot;: &quot;string&quot; },
+  &quot;cta&quot;: { &quot;editor&quot;: &quot;text&quot;, &quot;default&quot;: &quot;Trabajemos juntos&quot;, &quot;tsType&quot;: &quot;string&quot; },
+  &quot;accent&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;violeta&quot;, &quot;lavanda&quot;, &quot;orquidea&quot;], &quot;default&quot;: &quot;violeta&quot;, &quot;tsType&quot;: &quot;string&quot; }
+}">
+class Component extends DCLogic {
+  // Extrae el ID de un enlace de YouTube en cualquier formato.
+  // Devuelve "" si el enlace no es válido o sigue siendo el de ejemplo.
+  ytId(url) {
+    if (typeof url !== 'string') return '';
+    if (url.indexOf('PEGA_AQUI') !== -1) return '';
+    const m = url.match(/(?:youtu\.be\/|\/shorts\/|\/embed\/|[?&]v=)([A-Za-z0-9_-]{11})/);
+    if (m) return m[1];
+    const bare = url.trim();
+    if (/^[A-Za-z0-9_-]{11}$/.test(bare)) return bare;
+    return '';
+  }
+
+  renderVals() {
+    const acentos = {
+      violeta: { accent: '#a855f7', deep: '#7c3aed', glow: 'rgba(168,85,247,0.40)' },
+      lavanda: { accent: '#c4a5fc', deep: '#9d7bf0', glow: 'rgba(196,165,252,0.38)' },
+      orquidea: { accent: '#d946ef', deep: '#b520d0', glow: 'rgba(217,70,239,0.38)' },
+    };
+    const a = acentos[this.props.accent] || acentos.violeta;
+
+    const rootStyle = {
+      '--accent': a.accent,
+      '--accent-deep': a.deep,
+      '--glow': a.glow,
+      '--bg': '#0b0a09',
+      '--panel': '#15120f',
+      '--line': 'rgba(255,255,255,0.10)',
+      '--ink': '#f3ede3',
+      '--muted': '#998f82',
+      position: 'relative',
+      minHeight: '100vh',
+      background: 'var(--bg)',
+      color: 'var(--ink)',
+      fontFamily: "'Hanken Grotesk', sans-serif",
+      overflowX: 'hidden',
+    };
+
+    const grainStyle = {
+      position: 'fixed',
+      inset: '0',
+      zIndex: 200,
+      pointerEvents: 'none',
+      opacity: 0.05,
+      mixBlendMode: 'overlay',
+      backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+    };
+
+    // ───── Lee los enlaces de YouTube desde videos-config.js ─────
+    const cfg = (typeof window !== 'undefined' && window.PORTFOLIO_VIDEOS) || {};
+    const cfgVerticales = Array.isArray(cfg.verticales) ? cfg.verticales : [];
+
+    const destId = this.ytId(cfg.horizontal);
+    const destacado = { ytid: destId, sinVideo: !destId };
+
+    const verticalesBase = [
+      { n: '01', titulo: 'Podcast · Reel 01', contexto: 'Clip vertical para redes' },
+      { n: '02', titulo: 'Podcast · Reel 02', contexto: 'Clip vertical para redes' },
+      { n: '03', titulo: 'Podcast · Reel 03', contexto: 'Clip vertical para redes' },
+      { n: '04', titulo: 'Podcast · Reel 04', contexto: 'Clip vertical para redes' },
+    ];
+    const verticales = verticalesBase.map((v, i) => {
+      const id = this.ytId(cfgVerticales[i]);
+      return { ...v, ytid: id, sinVideo: !id };
+    });
+
+    return {
+      rootStyle,
+      grainStyle,
+      nombre: this.props.nombre ?? 'Alek',
+      rol: this.props.rol ?? 'Editor de Video',
+      frase: this.props.frase ?? 'Edición con ritmo de cine. Reels, podcasts y motion graphics que atrapan desde el primer frame.',
+      cta: this.props.cta ?? 'Trabajemos juntos',
+      destacado,
+      verticales,
+      herramientas: [
+        { nombre: 'Premiere Pro', icon: 'uploads/Adobe_Premiere_Pro_CC_icon.svg.png' },
+        { nombre: 'After Effects', icon: 'uploads/Adobe_After_Effects_CC_icon.svg-2.png' },
+        { nombre: 'IA aplicada', icon: 'uploads/higgsfield-logo-png_seeklogo-660244.png' },
+      ],
+      paquetes: [
+        {
+          nombre: 'Esencial',
+          desc: 'Para empezar a publicar constante',
+          precio: '$5,500',
+          periodo: 'MXN / mes',
+          destacado: false,
+          features: [
+            '8 videos verticales / mes',
+            'Cortes dinámicos + subtítulos',
+            'Música y SFX básico',
+            '2 rondas de revisión',
+            'Entrega en 48–72 h',
+          ],
+        },
+        {
+          nombre: 'Profesional',
+          desc: 'Para marcas que quieren destacar',
+          precio: '$9,500',
+          periodo: 'MXN / mes',
+          destacado: true,
+          features: [
+            '12 videos verticales / mes',
+            'Todo lo de Esencial, más:',
+            'Motion graphics en 4 piezas',
+            'Trackeo de texto y elementos',
+            'Diseño de sonido / SFX avanzado',
+            '1 adaptación horizontal incluida',
+            'Entrega prioritaria',
+          ],
+        },
+        {
+          nombre: 'Premium',
+          desc: 'Producción completa multiplataforma',
+          precio: '$14,500',
+          periodo: 'MXN / mes',
+          destacado: false,
+          features: [
+            '16 piezas / mes',
+            'Todo lo de Profesional, más:',
+            '1 video horizontal largo (YouTube)',
+            'Elemento 3D integrado',
+            'Readaptación vertical + horizontal',
+            '3 rondas de revisión',
+            'Soporte prioritario',
+          ],
+        },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>
