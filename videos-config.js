@@ -26,7 +26,7 @@ window.PORTFOLIO_VIDEOS = {
   // ───── 4 VIDEOS VERTICALES (9:16) — en orden, de izquierda a derecha ─────
   verticales: [
     "https://youtube.com/shorts/gXBP08k4gA8",
-    "https://youtube.com/shorts/_ezulbsIKMw",
+    "https://youtube.com/shorts/Xk7AlV8P4Cw",
     "https://youtube.com/shorts/_ezulbsIKMw",
     "https://youtube.com/shorts/2ccCB7O4q-A?si=P6O3GfOtyfJ1tKKi",
   ],
