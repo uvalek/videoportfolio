@@ -28,6 +28,22 @@
   @keyframes glowPulse{0%,100%{opacity:.72;transform:scale(1);}50%{opacity:1;transform:scale(1.07);}}
   @keyframes flowPath{0%{stroke-dashoffset:0;stroke-opacity:.16;}50%{stroke-opacity:.5;}100%{stroke-dashoffset:-2;stroke-opacity:.16;}}
   @keyframes letterRise{0%{transform:translateY(90px);opacity:0;}100%{transform:translateY(0);opacity:1;}}
+  @keyframes fadeIn{0%{opacity:0;}100%{opacity:1;}}
+  .plan{position:relative;display:flex;flex-direction:column;text-align:center;padding:clamp(26px,3vw,36px);border-radius:22px;border:1px solid var(--line);background:var(--panel);transition:transform .35s cubic-bezier(.2,.65,.25,1),border-color .25s,box-shadow .35s;}
+  .plan:hover{border-color:var(--accent);}
+  .plan--popular{border:2px solid var(--accent);}
+  .plan__feats{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:13px;text-align:left;}
+  .plan__badge{position:absolute;top:0;right:0;display:flex;align-items:center;gap:5px;background:var(--accent);padding:6px 12px;border-top-right-radius:21px;border-bottom-left-radius:14px;}
+  .plan__btn{display:block;text-decoration:none;text-align:center;padding:14px 24px;border-radius:14px;font-family:'Archivo',sans-serif;font-size:16px;font-weight:700;letter-spacing:-0.01em;transition:transform .25s,box-shadow .25s,background .25s,color .25s,border-color .25s;}
+  .plan__btn--solid{background:var(--accent);color:#fff;border:1px solid var(--accent);}
+  .plan__btn--solid:hover{transform:translateY(-2px);box-shadow:0 14px 38px var(--glow);}
+  .plan__btn--outline{background:transparent;color:var(--ink);border:1px solid var(--line);}
+  .plan__btn--outline:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
+  @media(min-width:1000px){
+    .plan--left{transform:translateX(26px) scale(.95);transform-origin:center right;}
+    .plan--right{transform:translateX(-26px) scale(.95);transform-origin:center left;}
+    .plan--popular{transform:translateY(-22px) scale(1.02);z-index:10;box-shadow:0 30px 70px rgba(0,0,0,0.55);}
+  }
 </style>
 </helmet>
 
@@ -237,25 +253,29 @@
       <!-- PAQUETES -->
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(18px,2.4vw,26px);align-items:stretch;">
         <sc-for list="{{ paquetes }}" as="p" hint-placeholder-count="3">
-          <div style="position:relative;display:flex;flex-direction:column;padding:clamp(26px,3vw,36px);border:1px solid var(--line);border-radius:22px;background:var(--panel);transition:transform .3s,border-color .25s;animation-name:rise;animation-duration:0.95s;animation-fill-mode:both;animation-timing-function:cubic-bezier(.2,.65,.25,1);animation-timeline:view();animation-range:entry 0% cover 20%;" style-hover="transform:translateY(-4px);border-color:var(--accent)">
+          <div class="{{ p.cls }}" style="animation:fadeIn .9s both;animation-timeline:view();animation-range:entry 0% cover 20%;">
             <sc-if value="{{ p.destacado }}" hint-placeholder-val="{{ true }}">
-              <span style="position:absolute;top:-13px;left:50%;transform:translateX(-50%);font-family:'Archivo',sans-serif;font-weight:700;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:#fff;background:var(--accent);padding:6px 14px;border-radius:999px;white-space:nowrap;">Más popular</span>
+              <div class="plan__badge">
+                <span style="color:#fff;font-size:12px;line-height:1;">★</span>
+                <span style="color:#fff;font-family:'Archivo',sans-serif;font-weight:700;font-size:12px;letter-spacing:0.02em;">Más popular</span>
+              </div>
             </sc-if>
             <h3 style="font-family:'Archivo',sans-serif;font-weight:800;font-size:clamp(22px,2.4vw,28px);letter-spacing:-0.02em;color:var(--ink);margin:0 0 6px;">{{ p.nombre }}</h3>
-            <p style="font-size:14px;line-height:1.45;color:var(--muted);margin:0 0 22px;min-height:38px;">{{ p.desc }}</p>
-            <div style="display:flex;align-items:baseline;gap:8px;margin:0 0 24px;padding-bottom:24px;border-bottom:1px solid var(--line);">
+            <p style="font-size:14px;line-height:1.45;color:var(--muted);margin:0 0 18px;min-height:38px;">{{ p.desc }}</p>
+            <div style="display:flex;align-items:baseline;justify-content:center;gap:8px;margin:0 0 22px;">
               <span style="font-family:'Archivo',sans-serif;font-weight:900;font-size:clamp(34px,4.4vw,46px);letter-spacing:-0.03em;color:var(--ink);">{{ p.precio }}</span>
               <span style="font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:0.04em;color:var(--muted);">{{ p.periodo }}</span>
             </div>
-            <div style="display:flex;flex-direction:column;gap:13px;margin-bottom:30px;">
+            <ul class="plan__feats">
               <sc-for list="{{ p.features }}" as="f" hint-placeholder-count="5">
-                <div style="display:flex;align-items:flex-start;gap:11px;">
-                  <span style="flex:0 0 auto;margin-top:1px;color:var(--accent);font-weight:800;font-size:15px;line-height:1.4;">✦</span>
+                <li style="display:flex;align-items:flex-start;gap:10px;">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;flex:0 0 auto;margin-top:3px;"><path d="M20 6 9 17l-5-5"></path></svg>
                   <span style="font-size:15px;line-height:1.4;color:#d4ccc0;">{{ f }}</span>
-                </div>
+                </li>
               </sc-for>
-            </div>
-            <a href="https://wa.me/522411363909" target="_blank" rel="noopener" style="margin-top:auto;text-decoration:none;text-align:center;background:var(--accent);color:#fff;padding:14px 24px;border-radius:999px;font-size:15px;font-weight:700;transition:transform .2s,box-shadow .25s;" style-hover="transform:translateY(-2px);box-shadow:0 14px 38px var(--glow)">Elegir {{ p.nombre }}</a>
+            </ul>
+            <hr style="width:100%;border:0;border-top:1px solid var(--line);margin:auto 0 16px;">
+            <a href="https://wa.me/522411363909" target="_blank" rel="noopener" class="{{ p.btnCls }}">Elegir {{ p.nombre }}</a>
           </div>
         </sc-for>
       </div>
@@ -441,7 +461,7 @@ class Component extends DCLogic {
         { nombre: 'After Effects', icon: 'uploads/Adobe_After_Effects_CC_icon.svg-2.png' },
         { nombre: 'IA aplicada', icon: 'uploads/higgsfield-logo-png_seeklogo-660244.png' },
       ],
-      paquetes: [
+      paquetes: ([
         {
           nombre: 'Esencial',
           desc: 'Para empezar a publicar constante',
@@ -488,7 +508,11 @@ class Component extends DCLogic {
             'Soporte prioritario',
           ],
         },
-      ],
+      ]).map((p, i) => ({
+        ...p,
+        cls: 'plan' + (p.destacado ? ' plan--popular' : (i === 0 ? ' plan--left' : ' plan--right')),
+        btnCls: 'plan__btn ' + (p.destacado ? 'plan__btn--solid' : 'plan__btn--outline'),
+      })),
     };
   }
 }
