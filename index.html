@@ -44,6 +44,26 @@
     .plan--right{transform:translateX(-26px) scale(.95);transform-origin:center left;}
     .plan--popular{transform:translateY(-22px) scale(1.02);z-index:10;box-shadow:0 30px 70px rgba(0,0,0,0.55);}
   }
+  @property --gradient-angle{syntax:"<angle>";initial-value:0deg;inherits:false;}
+  @property --gradient-angle-offset{syntax:"<angle>";initial-value:0deg;inherits:false;}
+  @property --gradient-percent{syntax:"<percentage>";initial-value:5%;inherits:false;}
+  @property --gradient-shine{syntax:"<color>";initial-value:#c4a5fc;inherits:false;}
+  .shiny-cta{--shiny-cta-bg:#0a0a0a;--shiny-cta-bg-subtle:#1a1818;--shiny-cta-fg:#fff;--shiny-cta-highlight:var(--accent);--shiny-cta-highlight-subtle:#c4a5fc;--animation:gradient-angle linear infinite;--duration:3s;--shadow-size:2px;--transition:800ms cubic-bezier(0.25,1,0.5,1);isolation:isolate;position:relative;overflow:hidden;cursor:pointer;outline-offset:4px;padding:16px 34px;font-family:'Hanken Grotesk',sans-serif;font-size:15px;line-height:1.2;font-weight:700;text-decoration:none;display:inline-block;border:1px solid transparent;border-radius:360px;color:var(--shiny-cta-fg);background:linear-gradient(var(--shiny-cta-bg),var(--shiny-cta-bg)) padding-box,conic-gradient(from calc(var(--gradient-angle) - var(--gradient-angle-offset)),transparent,var(--shiny-cta-highlight) var(--gradient-percent),var(--gradient-shine) calc(var(--gradient-percent) * 2),var(--shiny-cta-highlight) calc(var(--gradient-percent) * 3),transparent calc(var(--gradient-percent) * 4)) border-box;box-shadow:inset 0 0 0 1px var(--shiny-cta-bg-subtle);transition:var(--transition);transition-property:--gradient-angle-offset,--gradient-percent,--gradient-shine;}
+  .shiny-cta::before,.shiny-cta::after,.shiny-cta span::before{content:"";pointer-events:none;position:absolute;inset-inline-start:50%;inset-block-start:50%;translate:-50% -50%;z-index:-1;}
+  .shiny-cta:active{translate:0 1px;}
+  .shiny-cta::before{--size:calc(100% - var(--shadow-size) * 3);--position:2px;--space:calc(var(--position) * 2);width:var(--size);height:var(--size);background:radial-gradient(circle at var(--position) var(--position),white calc(var(--position) / 4),transparent 0) padding-box;background-size:var(--space) var(--space);background-repeat:space;mask-image:conic-gradient(from calc(var(--gradient-angle) + 45deg),black,transparent 10% 90%,black);border-radius:inherit;opacity:0.4;z-index:-1;}
+  .shiny-cta::after{--animation:shimmer linear infinite;width:100%;aspect-ratio:1;background:linear-gradient(-50deg,transparent,var(--shiny-cta-highlight),transparent);mask-image:radial-gradient(circle at bottom,transparent 40%,black);opacity:0.6;}
+  .shiny-cta span{z-index:1;}
+  .shiny-cta span::before{--size:calc(100% + 1rem);width:var(--size);height:var(--size);box-shadow:inset 0 -1ex 2rem 4px var(--shiny-cta-highlight);opacity:0;transition:opacity var(--transition);animation:calc(var(--duration) * 1.5) breathe linear infinite;}
+  .shiny-cta,.shiny-cta::before,.shiny-cta::after{animation:var(--animation) var(--duration),var(--animation) calc(var(--duration) / 0.4) reverse paused;animation-composition:add;}
+  .shiny-cta:is(:hover,:focus-visible){--gradient-percent:20%;--gradient-angle-offset:95deg;--gradient-shine:var(--shiny-cta-highlight-subtle);}
+  .shiny-cta:is(:hover,:focus-visible),.shiny-cta:is(:hover,:focus-visible)::before,.shiny-cta:is(:hover,:focus-visible)::after{animation-play-state:running;}
+  .shiny-cta:is(:hover,:focus-visible) span::before{opacity:1;}
+  .shiny-cta--sm{padding:9px 18px;font-size:13px;}
+  .shiny-cta--block{display:block;width:100%;text-align:center;}
+  @keyframes gradient-angle{to{--gradient-angle:360deg;}}
+  @keyframes shimmer{to{rotate:360deg;}}
+  @keyframes breathe{from,to{scale:1;}50%{scale:1.2;}}
 </style>
 </helmet>
 
@@ -59,7 +79,7 @@
       <a href="#sobre" style="text-decoration:none;color:var(--muted);font-size:14px;font-weight:500;letter-spacing:0.01em;transition:color .25s;" style-hover="color:var(--ink)">Sobre mí</a>
       <a href="#precios" style="text-decoration:none;color:var(--muted);font-size:14px;font-weight:500;letter-spacing:0.01em;transition:color .25s;" style-hover="color:var(--ink)">Precios</a>
       <a href="#contacto" style="text-decoration:none;color:var(--muted);font-size:14px;font-weight:500;letter-spacing:0.01em;transition:color .25s;" style-hover="color:var(--ink)">Contacto</a>
-      <a href="#contacto" style="text-decoration:none;background:var(--accent);color:#fff;padding:9px 17px;border-radius:999px;font-size:13px;font-weight:700;letter-spacing:0.01em;transition:transform .2s,box-shadow .25s;box-shadow:0 0 0 rgba(245,166,35,0);" style-hover="transform:translateY(-1px);box-shadow:0 8px 26px var(--glow)">Trabajemos juntos</a>
+      <a href="#contacto" class="shiny-cta shiny-cta--sm"><span>Trabajemos juntos</span></a>
     </div>
   </nav>
 
@@ -86,7 +106,7 @@
         <p style="font-size:clamp(16px,1.7vw,20px);line-height:1.55;color:var(--muted);max-width:34ch;margin:clamp(22px,3vw,30px) 0 0;animation:heroFade .95s both;animation-delay:.34s;">{{ frase }}</p>
 
         <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:clamp(26px,3.5vw,38px);animation:heroFade .95s both;animation-delay:.44s;">
-          <a href="#contacto" style="text-decoration:none;background:var(--accent);color:#fff;padding:15px 28px;border-radius:999px;font-size:15px;font-weight:700;letter-spacing:0.01em;transition:transform .2s,box-shadow .25s;" style-hover="transform:translateY(-2px);box-shadow:0 14px 38px var(--glow)">{{ cta }}</a>
+          <a href="#contacto" class="shiny-cta"><span>{{ cta }}</span></a>
           <a href="#trabajo" style="text-decoration:none;color:var(--ink);padding:15px 26px;border-radius:999px;border:1px solid var(--line);font-size:15px;font-weight:600;transition:border-color .25s,background .25s;" style-hover="border-color:var(--accent);background:rgba(245,166,35,0.06)">Ver mi trabajo</a>
         </div>
 
@@ -275,7 +295,7 @@
               </sc-for>
             </ul>
             <hr style="width:100%;border:0;border-top:1px solid var(--line);margin:auto 0 16px;">
-            <a href="https://wa.me/522411363909" target="_blank" rel="noopener" class="{{ p.btnCls }}">Elegir {{ p.nombre }}</a>
+            <a href="https://wa.me/522411363909" target="_blank" rel="noopener" class="{{ p.btnCls }}"><span>Elegir {{ p.nombre }}</span></a>
           </div>
         </sc-for>
       </div>
@@ -511,7 +531,7 @@ class Component extends DCLogic {
       ]).map((p, i) => ({
         ...p,
         cls: 'plan' + (p.destacado ? ' plan--popular' : (i === 0 ? ' plan--left' : ' plan--right')),
-        btnCls: 'plan__btn ' + (p.destacado ? 'plan__btn--solid' : 'plan__btn--outline'),
+        btnCls: p.destacado ? 'shiny-cta shiny-cta--block' : 'plan__btn plan__btn--outline',
       })),
     };
   }
