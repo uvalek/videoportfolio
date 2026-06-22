@@ -44,10 +44,16 @@
     .plan--right{transform:translateX(-26px) scale(.95);transform-origin:center left;}
     .plan--popular{transform:translateY(-22px) scale(1.02);z-index:10;box-shadow:0 30px 70px rgba(0,0,0,0.55);}
   }
+  .hero-text{flex:1 1 420px;min-width:280px;}
+  .hero-media{position:relative;flex:1 1 320px;min-width:260px;max-width:460px;}
   .hero-glow{position:absolute;z-index:0;pointer-events:none;opacity:1;filter:blur(16px);background:radial-gradient(circle closest-side at 50% 46%, var(--glow) 0%, var(--glow) 8%, transparent 100%);inset:-6% 0 -6% 0;}
   .hero-photo{position:relative;z-index:1;overflow:hidden;width:100%;margin-left:0;aspect-ratio:3/4;}
   .hero-photo__img{position:absolute;top:0;left:50%;transform:translateX(-50%);width:100%;height:auto;display:block;background:transparent;border:0;}
-  @media(min-width:768px){
+  @media(max-width:999.98px){
+    .hero-text{flex:1 1 100%;min-width:0;}
+    .hero-media{flex:1 1 100%;max-width:460px;margin-inline:auto;}
+  }
+  @media(min-width:1000px){
     .hero-glow{inset:-14% -2% -18% -42%;}
     .hero-photo{width:139%;margin-left:-39%;aspect-ratio:9/10;}
     .hero-photo__img{left:0;transform:translateX(calc(-8% - 10px));width:116%;}
@@ -110,7 +116,7 @@
 
     <div style="position:relative;z-index:1;max-width:1240px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:clamp(32px,5vw,72px);">
 
-      <div style="flex:1 1 420px;min-width:280px;">
+      <div class="hero-text">
         <h1 style="font-family:'Archivo',sans-serif;font-weight:900;font-size:clamp(70px,13.5vw,172px);line-height:0.84;letter-spacing:-0.04em;color:var(--ink);margin:0;"><sc-for list="{{ nombreLetras }}" as="l"><span style="{{ l.style }}">{{ l.ch }}</span></sc-for></h1>
 
         <div style="margin:14px 0 0;animation:heroFade .95s both;animation-delay:.26s;">
@@ -131,7 +137,7 @@
         </div>
       </div>
 
-      <div style="position:relative;flex:1 1 320px;min-width:260px;max-width:460px;animation:heroFade 1s both;animation-delay:.3s;">
+      <div class="hero-media" style="animation:heroFade 1s both;animation-delay:.3s;">
         <div class="hero-glow"></div>
         <div class="hero-photo">
           <img src="uploads/alek-silueta.png" alt="Alek" class="hero-photo__img">
