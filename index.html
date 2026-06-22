@@ -62,16 +62,21 @@
   .shiny-cta::before{--size:calc(100% - var(--shadow-size) * 3);--position:2px;--space:calc(var(--position) * 2);width:var(--size);height:var(--size);background:radial-gradient(circle at var(--position) var(--position),white calc(var(--position) / 4),transparent 0) padding-box;background-size:var(--space) var(--space);background-repeat:space;mask-image:conic-gradient(from calc(var(--gradient-angle) + 45deg),black,transparent 10% 90%,black);border-radius:inherit;opacity:0.4;z-index:-1;}
   .shiny-cta::after{--animation:shimmer linear infinite;width:100%;aspect-ratio:1;background:linear-gradient(-50deg,transparent,var(--shiny-cta-highlight),transparent);mask-image:radial-gradient(circle at bottom,transparent 40%,black);opacity:0.6;}
   .shiny-cta span{z-index:1;}
-  .shiny-cta span::before{--size:calc(100% + 1rem);width:var(--size);height:var(--size);box-shadow:inset 0 -1ex 2rem 4px var(--shiny-cta-highlight);opacity:0;transition:opacity var(--transition);animation:calc(var(--duration) * 1.5) breathe linear infinite;}
-  .shiny-cta,.shiny-cta::before,.shiny-cta::after{animation:var(--animation) var(--duration),var(--animation) calc(var(--duration) / 0.4) reverse paused;animation-composition:add;}
+  .shiny-cta span::before{--size:calc(100% + 1rem);width:var(--size);height:var(--size);box-shadow:inset 0 -1ex 2rem 4px var(--shiny-cta-highlight);opacity:0;transition:opacity var(--transition);animation:calc(var(--duration) * 1.5) breathe linear infinite;animation-play-state:paused;}
+  .shiny-cta,.shiny-cta::before,.shiny-cta::after{animation:var(--animation) var(--duration),var(--animation) calc(var(--duration) / 0.4) reverse paused;animation-composition:add;animation-play-state:paused;}
   .shiny-cta:is(:hover,:focus-visible){--gradient-percent:20%;--gradient-angle-offset:95deg;--gradient-shine:var(--shiny-cta-highlight-subtle);}
   .shiny-cta:is(:hover,:focus-visible),.shiny-cta:is(:hover,:focus-visible)::before,.shiny-cta:is(:hover,:focus-visible)::after{animation-play-state:running;}
-  .shiny-cta:is(:hover,:focus-visible) span::before{opacity:1;}
+  .shiny-cta:is(:hover,:focus-visible) span::before{opacity:1;animation-play-state:running;}
   .shiny-cta--sm{padding:9px 18px;font-size:13px;}
   .shiny-cta--block{display:block;width:100%;text-align:center;}
   @keyframes gradient-angle{to{--gradient-angle:360deg;}}
   @keyframes shimmer{to{rotate:360deg;}}
   @keyframes breathe{from,to{scale:1;}50%{scale:1.2;}}
+  @media (prefers-reduced-motion: reduce){
+    #inicio svg path{animation:none !important;}
+    #inicio div[style*="glowPulse"]{animation:none !important;}
+    .shiny-cta,.shiny-cta::before,.shiny-cta::after,.shiny-cta span::before{animation:none !important;}
+  }
 </style>
 </helmet>
 
@@ -454,7 +459,7 @@ class Component extends DCLogic {
     // ───── Animación de fondo "Floating Paths" (72 líneas, posición 1 y -1) ─────
     const bgPaths = [];
     [1, -1].forEach((position) => {
-      for (let i = 0; i < 36; i++) {
+      for (let i = 0; i < 36; i += 3) {
         const d = `M-${380 - i * 5 * position} -${189 + i * 6}C-${380 - i * 5 * position} -${189 + i * 6} -${312 - i * 5 * position} ${216 - i * 6} ${152 - i * 5 * position} ${343 - i * 6}C${616 - i * 5 * position} ${470 - i * 6} ${684 - i * 5 * position} ${875 - i * 6} ${684 - i * 5 * position} ${875 - i * 6}`;
         const dur = 20 + (i % 11);
         const delay = -(i % 9);
