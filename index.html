@@ -44,6 +44,14 @@
     .plan--right{transform:translateX(-26px) scale(.95);transform-origin:center left;}
     .plan--popular{transform:translateY(-22px) scale(1.02);z-index:10;box-shadow:0 30px 70px rgba(0,0,0,0.55);}
   }
+  .hero-glow{position:absolute;z-index:0;pointer-events:none;opacity:1;filter:blur(16px);background:radial-gradient(circle closest-side at 50% 46%, var(--glow) 0%, var(--glow) 8%, transparent 100%);inset:-6% 0 -6% 0;}
+  .hero-photo{position:relative;z-index:1;overflow:hidden;width:100%;margin-left:0;aspect-ratio:3/4;}
+  .hero-photo__img{position:absolute;top:0;left:50%;transform:translateX(-50%);width:100%;height:auto;display:block;background:transparent;border:0;}
+  @media(min-width:768px){
+    .hero-glow{inset:-14% -2% -18% -42%;}
+    .hero-photo{width:139%;margin-left:-39%;aspect-ratio:9/10;}
+    .hero-photo__img{left:0;transform:translateX(calc(-8% - 10px));width:116%;}
+  }
   @property --gradient-angle{syntax:"<angle>";initial-value:0deg;inherits:false;}
   @property --gradient-angle-offset{syntax:"<angle>";initial-value:0deg;inherits:false;}
   @property --gradient-percent{syntax:"<percentage>";initial-value:5%;inherits:false;}
@@ -118,9 +126,9 @@
       </div>
 
       <div style="position:relative;flex:1 1 320px;min-width:260px;max-width:460px;animation:heroFade 1s both;animation-delay:.3s;">
-        <div style="position:absolute;inset:-14% -2% -18% -42%;background:radial-gradient(circle closest-side at 50% 46%, var(--glow) 0%, var(--glow) 8%, transparent 100%);filter:blur(16px);opacity:1;pointer-events:none;z-index:0;"></div>
-        <div style="position:relative;z-index:1;width:139%;margin-left:-39%;aspect-ratio:9/10;overflow:hidden;">
-          <img src="uploads/alek-silueta.png" alt="Alek" style="position:absolute;top:0;left:0;width:116%;height:auto;display:block;transform:translateX(calc(-8% - 10px));background:transparent;border:0;">
+        <div class="hero-glow"></div>
+        <div class="hero-photo">
+          <img src="uploads/alek-silueta.png" alt="Alek" class="hero-photo__img">
         </div>
       </div>
 
